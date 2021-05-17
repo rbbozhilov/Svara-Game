@@ -1,4 +1,5 @@
-﻿using Svara_Game.DI;
+﻿using Svara_Game.Core;
+using Svara_Game.DI;
 using Svara_Game.Models;
 using Svara_Game.Models.ValueObject;
 using System;
@@ -12,32 +13,19 @@ namespace Svara_Game
         {
 
 
-            //Deck deck = new Deck();
+            //Engine engine = new Engine();
 
-            //List<Card> cards = deck.Cards;
+            //engine.Play();
 
-            //Player player = new Player("pesho");
-            //player.AddCard(cards[2]);
-            //player.AddCard(cards[1]);
-            //player.AddCard(cards[13]);
+            Player player = new Player("tisho");
 
-            //Console.WriteLine(player.Score.Points);
-
-
-            Writer writer = new Writer();
-            Reader reader = new Reader();
-
-            string a = reader.Read();
-
-            Player player = new Player("gosho");
             Deck deck = new Deck();
 
             player.AddCard(deck.GetCard());
             player.AddCard(deck.GetCard());
             player.AddCard(deck.GetCard());
-
             player.ShowCards();
-
+            int choice = player.Choice.Options();
         }
     }
 }

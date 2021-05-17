@@ -8,15 +8,15 @@ namespace Svara_Game.Models.Repository
    public class PlayerRepository
     {
 
-        private List<IPlayer> players;
+        private List<Player> players;
 
         public PlayerRepository()
         {
-            this.players = new List<IPlayer>();
+            this.players = new List<Player>();
         }
 
 
-        public IReadOnlyCollection<IPlayer> Players => this.players.AsReadOnly();
+        public List<Player> Players => this.players;
 
 
         public void AddPlayer(Player player)
@@ -29,7 +29,7 @@ namespace Svara_Game.Models.Repository
             players.Remove(player);
         }
 
-        public IReadOnlyCollection<IPlayer> GetPlayers()
+        public List<Player> GetPlayers()
         {
             return this.Players;
         }

@@ -11,7 +11,7 @@ namespace Svara_Game.Contracts
 
         public string Name { get; }
 
-        public Score Score { get; }
+     
 
         public IReadOnlyCollection<Card> Cards { get; }
 

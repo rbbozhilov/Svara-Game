@@ -18,20 +18,20 @@ namespace Svara_Game.Models.SvaraWinner
         public List<Player> GetWinner()
         {
 
-            int maxScore = 0;
+            //int maxscore = 0;
 
-            foreach (var player in this.players)
-            {
-                int currentScore = player.Score.Points;
+            //foreach (var player in this.players)
+            //{
+            //    int currentscore = player.score.points;
 
-                if (currentScore > maxScore)
-                {
-                    maxScore = currentScore;
-                }
-            }
+            //    if (currentscore > maxscore)
+            //    {
+            //        maxscore = currentscore;
+            //    }
+            //}
 
-            return this.players.Where(x => x.Score.Points == maxScore).ToList();
-
+            //return this.players.where(x => x.score.points == maxscore).tolist();
+            return null;
         }
 
     }

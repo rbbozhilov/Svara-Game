@@ -12,29 +12,26 @@ namespace Svara_Game.Models
     {
 
         private readonly List<Card> cards;
-        private Score score;
-        private Choice choice;
         private ServiceProvider provider;
         private IWriter writer;
+        private Choice choice;
+        private Score score;
+      
 
         public Player(string name)
         {
             this.Name = name;
             this.cards = new List<Card>();
-            this.score = new Score(this.cards);
             this.provider = Container.ConfigureServices();
-            this.choice = provider.GetRequiredService<Choice>();
             this.writer = provider.GetRequiredService<IWriter>();
+            this.choice = provider.GetRequiredService<Choice>();
+            this.score = new Score(this.cards);
         }
 
         public string Name { get; }
 
-        public int Choice => choice.Options();
-
-        public int GetInSvara => choice.GetInSvara();
-
+        public Choice Choice => this.choice;
         public Score Score => this.score;
-
 
         public IReadOnlyCollection<Card> Cards => this.cards.AsReadOnly();
 
@@ -57,6 +54,6 @@ namespace Svara_Game.Models
 
         }
 
-
+      
     }
 }

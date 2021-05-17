@@ -23,7 +23,7 @@ namespace Svara_Game.Models.ValueObject
             Card firstCard = this.cards[0];
             Card secondCard = this.cards[1];
             Card thirdCard = this.cards[2];
-            int sum = 0;
+            
 
             if (firstCard.Name == secondCard.Name && secondCard.Name == thirdCard.Name)
             {
@@ -37,6 +37,7 @@ namespace Svara_Game.Models.ValueObject
                 return firstCard.Points + secondCard.Points + thirdCard.Points;
             }
 
+            int sum = 0;
 
             if ((firstCard.Name == "7" && firstCard.Type == "Spatia" && secondCard.Type == thirdCard.Type) || (secondCard.Name == "7" && secondCard.Type == "Spatia" && firstCard.Type == thirdCard.Type) || (thirdCard.Type == "Spatia" && thirdCard.Name == "7" && firstCard.Type == secondCard.Type))
             {
@@ -143,6 +144,11 @@ namespace Svara_Game.Models.ValueObject
             return sum;
         }
 
+
+        public override string ToString()
+        {
+            return $"Total points : {this.Points}";
+        }
 
     }
 }
