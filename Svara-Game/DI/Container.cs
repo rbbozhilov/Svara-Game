@@ -16,8 +16,7 @@ namespace Svara_Game.DI
             serviceCollection.AddTransient<IWriter, Writer>();
             serviceCollection.AddTransient<IReader, Reader>();
             serviceCollection.AddTransient<Choice, Choice>();
-
-
+            
             return serviceCollection.BuildServiceProvider();
         }
 
