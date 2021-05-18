@@ -19,8 +19,9 @@ namespace Svara_Game.Models.ValueObject
 
         public int GetInSvara()
         {
-            this.writer.WriteLine("Click 1 for drink and join in svara");
-            this.writer.WriteLine("Click 2 for quit");
+            this.writer.WriteLine("Click 1 for drink and join in svara.");
+            this.writer.WriteLine("Click 2 for quit and drink what you bet.");
+            this.writer.Write("Your choice: ");
             int choice = int.Parse(reader.Read());
 
             return choice;
@@ -29,10 +30,19 @@ namespace Svara_Game.Models.ValueObject
         public int Options()
         {
             this.writer.WriteLine("Click 1 for up bet");
-            this.writer.WriteLine("Click 2 for Pay bet");
-            this.writer.WriteLine("Click 3 for Exit");
+            this.writer.WriteLine("Click 2 for pay bet");
+            this.writer.WriteLine("Click 3 for quit");
             int choice = int.Parse(reader.Read());
 
+            return choice;
+        }
+
+       public int ShowingCardsOption()
+        {
+
+            this.writer.WriteLine("Press 1 for showing cards");
+            this.writer.WriteLine("Press 2 for NOT showing cards");
+            int choice = int.Parse(this.reader.Read());
             return choice;
         }
 

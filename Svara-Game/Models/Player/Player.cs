@@ -29,6 +29,8 @@ namespace Svara_Game.Models
         }
 
         public string Name { get; }
+        public int Bet { get; set; }
+        public bool PayBet { get; set; }
 
         public Choice Choice => this.choice;
         public Score Score => this.score;
@@ -54,6 +56,8 @@ namespace Svara_Game.Models
 
         }
 
-      
+     
+
+
     }
 }

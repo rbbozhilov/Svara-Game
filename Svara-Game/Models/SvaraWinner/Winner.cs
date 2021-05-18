@@ -10,28 +10,28 @@ namespace Svara_Game.Models.SvaraWinner
 
         private List<Player> players;
 
-        public Winner()
+        public Winner(List<Player> players)
         {
-            this.players = new List<Player>();
+            this.players = players;
         }
 
         public List<Player> GetWinner()
         {
 
-            //int maxscore = 0;
+            int maxscore = 0;
 
-            //foreach (var player in this.players)
-            //{
-            //    int currentscore = player.score.points;
+            foreach (var player in this.players)
+            {
+                int currentscore = player.Score.Points;
 
-            //    if (currentscore > maxscore)
-            //    {
-            //        maxscore = currentscore;
-            //    }
-            //}
+                if (currentscore > maxscore)
+                {
+                    maxscore = currentscore;
+                }
+            }
 
-            //return this.players.where(x => x.score.points == maxscore).tolist();
-            return null;
+            return this.players.Where(x => x.Score.Points == maxscore).ToList();
+           
         }
 
     }

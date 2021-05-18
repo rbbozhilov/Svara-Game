@@ -12,20 +12,11 @@ namespace Svara_Game
         static void Main(string[] args)
         {
 
+            Engine engine = new Engine();
 
-            //Engine engine = new Engine();
+            engine.Play();
 
-            //engine.Play();
-
-            Player player = new Player("tisho");
-
-            Deck deck = new Deck();
-
-            player.AddCard(deck.GetCard());
-            player.AddCard(deck.GetCard());
-            player.AddCard(deck.GetCard());
-            player.ShowCards();
-            int choice = player.Choice.Options();
+            
         }
     }
 }

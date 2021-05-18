@@ -9,12 +9,9 @@ namespace Svara_Game.Models
     public class Table : ITable
     {
 
-        private readonly List<Player> players;
-      
-
-        public Table(List<Player> players)
+        public Table()
         {
-            this.players = players;
+            this.FullBet = 0;
         }
 
 
