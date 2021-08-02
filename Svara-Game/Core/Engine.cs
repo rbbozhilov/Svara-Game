@@ -19,7 +19,6 @@ namespace Svara_Game.Core
         private ServiceProvider provider;
         private Deck deck;
         private Winner winner;
-        private bool inSvara = default;
 
         public Engine()
         {
