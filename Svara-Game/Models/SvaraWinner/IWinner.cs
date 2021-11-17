@@ -6,10 +6,7 @@ namespace Svara_Game.Models.SvaraWinner
 {
     public interface IWinner
     {
-
-        List<Player> GetWinner();
-
-
+        IReadOnlyCollection<Player> GetWinner();
 
     }
 }

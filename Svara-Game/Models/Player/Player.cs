@@ -16,7 +16,11 @@ namespace Svara_Game.Models
         private IWriter writer;
         private Choice choice;
         private Score score;
-      
+
+        public Player()
+        {
+
+        }
 
         public Player(string name)
         {
@@ -53,11 +57,9 @@ namespace Svara_Game.Models
                 this.writer.WriteLine(card.ToString());
             }
 
+            writer.WriteLine($"Full points -> {this.Score.Points}" + Environment.NewLine);
 
         }
-
-     
-
 
     }
 }

@@ -8,14 +8,14 @@ namespace Svara_Game.Models.SvaraWinner
     public class Winner : IWinner
     {
 
-        private List<Player> players;
+        private IReadOnlyCollection<Player> players;
 
-        public Winner(List<Player> players)
+        public Winner(IReadOnlyCollection<Player> players)
         {
             this.players = players;
         }
 
-        public List<Player> GetWinner()
+        public IReadOnlyCollection<Player> GetWinner()
         {
 
             int maxscore = 0;

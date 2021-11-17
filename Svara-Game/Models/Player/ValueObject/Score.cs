@@ -129,11 +129,11 @@ namespace Svara_Game.Models.ValueObject
                 }
             }
 
-            if (firstCard.Points > secondCard.Points && thirdCard.Points < firstCard.Points)
+            if (firstCard.Points >= secondCard.Points && thirdCard.Points <= firstCard.Points)
             {
                 sum = firstCard.Points;
             }
-            else if (thirdCard.Points > firstCard.Points && thirdCard.Points > secondCard.Points)
+            else if (thirdCard.Points >= firstCard.Points && thirdCard.Points >= secondCard.Points)
             {
                 sum = thirdCard.Points;
             }

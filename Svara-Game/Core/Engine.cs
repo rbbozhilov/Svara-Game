@@ -6,6 +6,7 @@ using Svara_Game.Models.Repository;
 using Svara_Game.Models.SvaraWinner;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Svara_Game.Core
@@ -18,8 +19,8 @@ namespace Svara_Game.Core
         private IReader reader;
         private ServiceProvider provider;
         private Deck deck;
+        private Table table;
         private Winner winner;
-        private bool inSvara = default;
 
         public Engine()
         {
@@ -29,7 +30,8 @@ namespace Svara_Game.Core
             this.writer = provider.GetRequiredService<IWriter>();
             this.reader = provider.GetRequiredService<IReader>();
             this.deck = new Deck();
-            
+            this.table = new Table();
+
         }
 
         public void Play()
@@ -38,8 +40,6 @@ namespace Svara_Game.Core
             while (true)
             {
 
-
-                Table table = new Table();
                 this.deck.StirringDeck();
 
 
@@ -62,10 +62,10 @@ namespace Svara_Game.Core
                     this.writer.WriteLine("Are you ready for check your cards and points ?/nPress 1 if you are: ");
                     int showCardsChoice = int.Parse(this.reader.Read());
 
-                    if(showCardsChoice == 1)
+                    if (showCardsChoice == 1)
                     {
                         playersOnTable[counter].ShowCards();
-                        this.writer.WriteLine($"{playersOnTable[counter].Score.Points}");
+
                     }
 
                     var choice = playersOnTable[counter].Choice.Options();
@@ -75,25 +75,31 @@ namespace Svara_Game.Core
                         this.writer.Write("How much you will bet ? : ");
                         int currentBet = int.Parse(this.reader.Read());
                         playersOnTable[counter].Bet += currentBet;
-                        table.UpBet(currentBet);
+                        this.table.UpBet(currentBet);
+                        Console.Clear();
                     }
 
                     if (choice == 2 && counterForBets == 0)
                     {
                         playersOnTable.Remove(playersOnTable[counter]);
+                        counter--;
                     }
 
                     if (choice == 2)
                     {
                         playersOnTable[counter].PayBet = true;
+                        Console.Clear();
                     }
 
 
                     if (choice == 3)
                     {
                         int drinks = playersOnTable[counter].Bet;
+                        string name = playersOnTable[counter].Name;
                         playersOnTable.Remove(playersOnTable[counter]);
-                        this.writer.WriteLine($"You must drink : {drinks}");
+                        counter--;
+                        Console.Clear();
+                        this.writer.WriteLine($"{name} must drink : {drinks}");
 
                     }
 
@@ -101,27 +107,25 @@ namespace Svara_Game.Core
                     {
                         this.writer.WriteLine($"Winner of this game is {playersOnTable[0].Name}");
 
-                        if (playersOnTable[0].Choice.ShowingCardsOption() == 1)
-                        {
+                        ShowingCards(playersOnTable[0]);
+                        this.writer.WriteLine($"Full bet is -> {this.table.FullBet}");
 
-                            playersOnTable[0].ShowCards();
-
-                        }
                         Environment.Exit(0);
                     }
 
                     int counterOfPayPlayers = 0;
-                    foreach(var player in playersOnTable)
+
+                    foreach (var player in playersOnTable)
                     {
 
-                        if(player.PayBet)
+                        if (player.PayBet)
                         {
                             counterOfPayPlayers++;
                         }
 
                     }
 
-                    if(counterOfPayPlayers == playersOnTable.Count || counterOfPayPlayers == playersOnTable.Count-1)
+                    if (counterOfPayPlayers == playersOnTable.Count || counterOfPayPlayers == playersOnTable.Count - 1)
                     {
                         break;
                     }
@@ -131,27 +135,38 @@ namespace Svara_Game.Core
                 }
 
                 winner = new Winner(playersOnTable);
-                var winners = winner.GetWinner();
+                List<Player> winners = winner.GetWinner().ToList();
+                Player theWinner = winners[0];
+
 
                 if (winners.Count == 1)
                 {
 
-                    this.writer.WriteLine($"Winner of this game is {winners[0].Name}");
+                    this.writer.WriteLine($"Winner of this game is {theWinner.Name}");
+
+                    ShowingCards(theWinner);
+
+                    this.writer.WriteLine($"Full bet is -> {this.table.FullBet}");
                     break;
 
                 }
                 else
                 {
-                    // TODO WHEN IS SVARA
-                    this.deck = new Deck();
-
+                    
+                    //TODO... When is svara
                 }
-
-
 
             }
         }
 
+
+        private int InSvaraWin(List<Player> players)
+        {
+
+
+
+            return players.Count;
+        }
 
         private void AddingPlayersOnTable()
         {
@@ -171,10 +186,7 @@ namespace Svara_Game.Core
                 Player currentPlayer = new Player(name);
                 this.players.AddPlayer(currentPlayer);
 
-
             }
-
-
         }
 
         private List<Player> AddCardsToPlayers()
@@ -198,9 +210,12 @@ namespace Svara_Game.Core
         }
 
 
-        private void ShowingCards()
+        private void ShowingCards(Player player)
         {
-
+            if (player.Choice.ShowingCardsOption() == 1)
+            {
+                player.ShowCards();
+            }
         }
 
 
