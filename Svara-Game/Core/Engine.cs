@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Svara_Game.Contracts;
+using Svara_Game.Data;
+using Svara_Game.Data.Entities;
 using Svara_Game.DI;
 using Svara_Game.Models;
 using Svara_Game.Models.Repository;
@@ -21,6 +23,8 @@ namespace Svara_Game.Core
         private Deck deck;
         private Table table;
         private Winner winner;
+        private bool inSvara;
+        private SvaraDbContext db;
 
         public Engine()
         {
@@ -31,18 +35,23 @@ namespace Svara_Game.Core
             this.reader = provider.GetRequiredService<IReader>();
             this.deck = new Deck();
             this.table = new Table();
+            this.inSvara = false;
+            this.db = new SvaraDbContext();
+            
 
         }
 
         public void Play()
         {
 
+            CreatingDataBase();
+
             while (true)
             {
 
                 this.deck.StirringDeck();
 
-
+               
                 AddingPlayersOnTable();
 
                 var playersOnTable = AddCardsToPlayers();
@@ -79,11 +88,11 @@ namespace Svara_Game.Core
                         Console.Clear();
                     }
 
-                    if (choice == 2 && counterForBets == 0)
-                    {
-                        playersOnTable.Remove(playersOnTable[counter]);
-                        counter--;
-                    }
+                    //if (choice == 2 && counterForBets == 0)
+                    //{
+                    //    playersOnTable.Remove(playersOnTable[counter]);
+                    //    counter--;
+                    //}
 
                     if (choice == 2)
                     {
@@ -109,6 +118,8 @@ namespace Svara_Game.Core
 
                         ShowingCards(playersOnTable[0]);
                         this.writer.WriteLine($"Full bet is -> {this.table.FullBet}");
+
+                        UpWinOfUser(playersOnTable[0]);
 
                         Environment.Exit(0);
                     }
@@ -147,6 +158,8 @@ namespace Svara_Game.Core
                     ShowingCards(theWinner);
 
                     this.writer.WriteLine($"Full bet is -> {this.table.FullBet}");
+                    UpWinOfUser(theWinner);
+
                     break;
 
                 }
@@ -160,14 +173,7 @@ namespace Svara_Game.Core
         }
 
 
-        private int InSvaraWin(List<Player> players)
-        {
-
-
-
-            return players.Count;
-        }
-
+   
         private void AddingPlayersOnTable()
         {
 
@@ -182,7 +188,7 @@ namespace Svara_Game.Core
 
                 this.writer.Write("Input your Name: ");
                 string name = this.reader.Read();
-
+                AddPlayerInDataBase(name);
                 Player currentPlayer = new Player(name);
                 this.players.AddPlayer(currentPlayer);
 
@@ -218,6 +224,37 @@ namespace Svara_Game.Core
             }
         }
 
+        private void CreatingDataBase()
+        {
+            db.Database.EnsureCreated();
+        }
+
+        private void AddPlayerInDataBase(string name)
+        {
+
+            var player = db.Users.FirstOrDefault(x => x.Name == name);
+
+
+            if(player == null)
+            {
+                User currentUser = new User() { Name = name };
+                db.Users.Add(currentUser);
+            }
+
+            db.SaveChanges();
+
+        }
+
+        private void UpWinOfUser(Player player)
+        {
+
+            var userWin = db.Users.FirstOrDefault(x => x.Name == player.Name);
+            userWin.OnDate = DateTime.UtcNow;
+            userWin.Wins++;
+            
+            db.SaveChanges();
+
+        }
 
     }
 }
